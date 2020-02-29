@@ -61,7 +61,7 @@ And, as before, don't forget to source your configuration file.
      output on.  Your fetchquest is to chase down what addresses these
      are for GPIO pin 20, and what values you need.
 
-  3. Look through the `gpio.h` and `gpio.c` files in `part1-blink`
+  3. Look through the `gpio.h` and `gpio.c` files in `part1-led`;
      you'll be filling this in as well as the two simple programs
     `part1-led/blink.c` and `part2-touch/touch.c`
      which will call into your code.  (You won't modify these two
@@ -69,7 +69,7 @@ And, as before, don't forget to source your configuration file.
 
 ### Hand-in deliverables:
 
-Note: where the broadcom document uses addresses `0x7420xxxx`, you'll use
+Note: where the broadcom document uses addresses `0x7E20xxxx`, you'll use
 `0x2020xxxx`.  
 
 You can work with someone else on this:
@@ -82,4 +82,4 @@ You can work with someone else on this:
   2. Write out the call to `put32` that will set GPIO pin 20 to be an input pin 
     (i.e., give the address and expression used as arguments).
 
-  3. Write out the call to `get32` to determine what value is held in GPIO pin 21.
+  3. Write out the call to `get32` to read the current level of GPIO pin 21.
