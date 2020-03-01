@@ -12,18 +12,22 @@ AS  = $(ARM)-as
 OD  = $(ARM)-objdump
 OCP = $(ARM)-objcopy
 
-CFLAGS = -O -Wall -nostdlib -nostartfiles -ffreestanding  -march=armv6 -std=gnu99  -I../part1-led
+CFLAGS = -pedantic -pedantic-errors -O -Wall -nostdlib -nostartfiles -ffreestanding  -march=armv6 -std=gnu11 -Werror -Wall -Wextra -Wshadow -Wpointer-arith -Wcast-qual -Wformat=2 -Wstrict-prototypes -Wmissing-prototypes -I../part1-led
 ASFLAGS = --warn --fatal-warnings -mcpu=arm1176jzf-s -march=armv6zk
 
 all: $(NAME).bin
 
-# if this does not work: you need to add the cs49n/bin directory (holding my-install) 
+# if this does not work: you need to add the cs49n/bin directory (holding my-install)
 # into your path.
 run:
 	my-install $(NAME).bin
 
-$(NAME).bin: ../part1-led/memmap $(OBJS) 
-	$(LD) $(OBJS) -T ../part1-led/memmap -o $(NAME).elf 
+.PHONY: ../part1-led
+../part1-led:
+	$(MAKE) -C ../part1-led
+
+$(NAME).bin: ../part1-led ../part1-led/memmap $(OBJS)
+	$(LD) $(OBJS) -T ../part1-led/memmap -o $(NAME).elf
 	$(OD) -D $(NAME).elf > $(NAME).list
 	$(OCP) $(NAME).elf -O binary $(NAME).bin
 
@@ -47,12 +51,13 @@ $(NAME).bin: ../part1-led/memmap $(OBJS)
 	  sed -e 's/^ *//' -e 's/$$/:/' >> $*.d
 	@rm -f $*.d.tmp
 
-.s.o: 
+.s.o:
 	$(AS) $(ASFLAGS) $< -o $@
 
-.S.o: 
+.S.o:
 	$(CC) -c $(CPP_ASFLAGS) $< -o $@
 
 # remove compilation products
 clean:
+	$(MAKE) -C ../part1-led clean
 	rm -f replay *.o *.d *.bin *.elf *.list *.img Makefile.bak *~ tags

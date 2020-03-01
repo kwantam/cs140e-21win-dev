@@ -16,13 +16,15 @@
  * 
  * Check-off:
  *  1. get a single LED to blink.
- *  2. attach an LED to pin 19 and another to pin 20 and blink in opposite order (i.e.,
+ *  2. attach an LED to pin 20 and another to pin 21 and blink in opposite order (i.e.,
  *     one should be on, while the other is off).   Note, if they behave weirdly, look
  *     carefully at the wording for GPIO set.
  */
 #include "gpio.h"
 
 void nop(void);
+void delay(unsigned ticks);
+void notmain(void);
 
 // countdown 'ticks' cycles; the asm probably isn't necessary.
 void delay(unsigned ticks) {
@@ -33,12 +35,16 @@ void delay(unsigned ticks) {
 // when you run should blink 10 times. will have to restart the pi by pulling the
 // usb connection out.
 void notmain(void) {
-    int led = 20;
-    gpio_set_output(led);
+    const int led1 = 20;
+    const int led2 = 26;
+    gpio_set_output(led1);
+    gpio_set_output(led2);
     for(int i = 0; i < 10; i++) {
-        gpio_set_on(led);
+        gpio_set_on(led1);
+        gpio_set_off(led2);
         delay(1000000);
-        gpio_set_off(led);
+        gpio_set_off(led1);
+        gpio_set_on(led2);
         delay(1000000);
     }
 }

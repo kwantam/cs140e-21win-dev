@@ -12,7 +12,7 @@ AS  = $(ARM)-as
 OD  = $(ARM)-objdump
 OCP = $(ARM)-objcopy
 
-CFLAGS = -O -Wall -nostdlib -nostartfiles -ffreestanding  -march=armv6 -std=gnu99 
+CFLAGS = -pedantic -pedantic-errors -O -Wall -nostdlib -nostartfiles -ffreestanding  -march=armv6 -std=gnu11 -Werror -Wall -Wextra -Wshadow -Wpointer-arith -Wcast-qual -Wformat=2 -Wstrict-prototypes -Wmissing-prototypes
 ASFLAGS = --warn --fatal-warnings -mcpu=arm1176jzf-s -march=armv6zk
 
 all: $(NAME).bin
